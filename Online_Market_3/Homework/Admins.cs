@@ -17,7 +17,7 @@ namespace Online_Market_3.Homework
             await botClient.SendTextMessageAsync(
                 chatId: update.Message.Chat.Id,
                 replyToMessageId: update.Message.MessageId,
-                text:"Salom admin",
+                text:"----------",
                 cancellationToken:cancellationToken
 
                 

@@ -46,14 +46,14 @@ namespace _25_lesson_TelegramBot_Basic
             Console.WriteLine(isEnter);
             ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup
             (
-                KeyboardButton.WithRequestContact("Kontact yuborish uchun tegining")
+                KeyboardButton.WithRequestContact("Kontactni yuborish")
             );
 
             markup.ResizeKeyboard = true;
             await botClient.SendTextMessageAsync
             (
                     chatId: update.Message.Chat.Id,
-                    text: "Iltimos oldin telefon raqamingizni yuboring!",
+                    text: "Iltimos oldin telefon Kontactni yuboring!",
                     replyMarkup: markup
             );
 

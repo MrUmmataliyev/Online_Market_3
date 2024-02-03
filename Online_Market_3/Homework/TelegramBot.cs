@@ -5,6 +5,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using io = System.IO;
 
 namespace _25_lesson_TelegramBot_Basic
@@ -38,66 +39,72 @@ namespace _25_lesson_TelegramBot_Basic
 
             async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
             {
+                bool aCheck = false;
                 try
                 {
 
-                    //string jsonAdminFilePath = @"D:\Najot ta'lim\N11\Online_Market_3\Online_Market_3\Adminsbase.json";
-                    //var AdminDataList = io.File.ReadAllText(jsonAdminFilePath);
-
-                    //List<Contact> AdminList = JsonConvert.DeserializeObject<List<Contact>>(AdminDataList);
-                    //foreach (var itemA in AdminList)
-                    //{
-                    if (update.Message.Chat.Id== 1417765739)
+                    
+                    if (update.Message.Chat.Id == 1417765739)//ADMIN UserID
                     {
+                        var message = update.Message;
+                        await botClient.SendTextMessageAsync
+                        (
+                        chatId: message.Chat.Id,
+                        text: $"Hush kelibsiz admin {message.Chat.FirstName}!",
+                        replyToMessageId: message.MessageId,
+                        replyMarkup: new ReplyKeyboardRemove()
+                        );
                         Admins ToAdmin = new Admins();
                         await ToAdmin.adminsFunction(botClient, update, cancellationToken);
-                        
+                        aCheck = true;
                     }
 
-                    //}
 
 
 
-                    string jsonFilePath = @"D:\Najot ta'lim\N11\\Online_Market_3\Online_Market_3\users.json";
-                    var dataList = io.File.ReadAllText(jsonFilePath);
-
-                    List<Contact> list = JsonConvert.DeserializeObject<List<Contact>>(dataList);
-
-                    foreach (var item in list)
+                    if (aCheck == false)
                     {
+                        string jsonFilePath = @"D:\Najot ta'lim\N11\\Online_Market_3\Online_Market_3\users.json";
+                        var dataList = io.File.ReadAllText(jsonFilePath);
 
-                        if (item.UserId == update.Message.Chat.Id)
+                        List<Contact> list = JsonConvert.DeserializeObject<List<Contact>>(dataList);
+
+                        foreach (var item in list)
                         {
-                            IsEnter = true;
-                            break;
-                        }
-                        else
-                        {
-                            IsEnter = false;
-                            if (update.Message.Contact is not null && item.PhoneNumber != update.Message.Contact.PhoneNumber)
+
+                            if (item.UserId == update.Message.Chat.Id)
                             {
-                                list.Add(update.Message.Contact);
-
-                                var data = io.File.ReadAllText(jsonFilePath);
-
-                                using (StreamWriter sw = new StreamWriter(jsonFilePath))
-                                {
-                                    sw.WriteLine(JsonConvert.SerializeObject(list, Formatting.Indented));
-                                }
                                 IsEnter = true;
                                 break;
                             }
+                            else
+                            {
+                                IsEnter = false;
+                                if (update.Message.Contact is not null && item.PhoneNumber != update.Message.Contact.PhoneNumber)
+                                {
+                                    list.Add(update.Message.Contact);
+
+                                    var data = io.File.ReadAllText(jsonFilePath);
+
+                                    using (StreamWriter sw = new StreamWriter(jsonFilePath))
+                                    {
+                                        sw.WriteLine(JsonConvert.SerializeObject(list, Formatting.Indented));
+                                    }
+                                    IsEnter = true;
+                                    break;
+                                }
+                            }
                         }
+
+
+
+
+                        var handler = update.Type switch
+                        {
+                            UpdateType.Message => Message.MessageAsyncFunction(botClient, update, cancellationToken, IsEnter),
+                            _ => Message.MessageAsyncFunction(botClient, update, cancellationToken, IsEnter),
+                        };
                     }
-
-
-                   
-
-                    var handler = update.Type switch
-                    {
-                        UpdateType.Message => Message.MessageAsyncFunction(botClient, update, cancellationToken, IsEnter),
-                        _ => Message.MessageAsyncFunction(botClient, update, cancellationToken, IsEnter),
-                    };
                 }
                 catch (Exception e)
                 {

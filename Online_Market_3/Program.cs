@@ -7,10 +7,10 @@ try
 }
 catch (NullReferenceException)
 {
-    throw new Exception("Vay vay vay");
+    throw new Exception("Ieeee ne ojidenaku");
 }
 catch (Exception)
 {
-    throw new Exception("Nima bo'ldi");
+    throw new Exception("Xe to'palan qimelar");
 }
 

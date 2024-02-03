@@ -7,6 +7,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using i= System.IO;
 
 namespace Online_Market_3.Homework
 {
@@ -17,11 +18,15 @@ namespace Online_Market_3.Homework
             await botClient.SendTextMessageAsync(
                 chatId: update.Message.Chat.Id,
                 replyToMessageId: update.Message.MessageId,
-                text:"----------",
-                cancellationToken:cancellationToken
+                text: "----------",
+                cancellationToken: cancellationToken
 
-                
+
                 );
+            string fileADDRESS = @"D:\Najot ta'lim\N11\Online_Market_3\Online_Market_3\CategoryFile.txt";
+            var readText = i.File.ReadAllText(fileADDRESS);
+            Console.WriteLine(readText);
+
         }
     }
 }

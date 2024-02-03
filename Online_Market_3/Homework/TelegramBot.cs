@@ -42,9 +42,10 @@ namespace _25_lesson_TelegramBot_Basic
                 bool aCheck = false;
                 try
                 {
+                    long AdminUserId = 1417765739;
 
-                    
-                    if (update.Message.Chat.Id == 1417765739)//ADMIN UserID
+
+                    if (update.Message.Chat.Id == AdminUserId)
                     {
                         var message = update.Message;
                         await botClient.SendTextMessageAsync

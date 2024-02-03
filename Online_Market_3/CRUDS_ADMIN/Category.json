@@ -1,0 +1,12 @@
+﻿[
+  {
+    "Book_Id": 1,
+    "Book_name": "My book",
+    "Author": "Mr.Atom",
+    "Category": "E-Book",
+    "PayType": "Naqd",
+    "OrderStatus": "New",
+    "Price": 20000000 
+    
+  }
+]
